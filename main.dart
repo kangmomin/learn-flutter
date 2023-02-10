@@ -46,12 +46,37 @@ void dataType() {
     print(e);
   }
 
-  Map<int, String> map = { // obj라고 생각
+  Map<int, String> map = {
+    // obj라고 생각
     1: "",
-    2: ""
-  }
+    2: "",
+  };
 
   var set1 = {};
   var list1 = [];
   Set<String> set2 = {}; // 기본적으로 list와 같으나 모든 요소에 unique를 적용
 }
+
+// List<String>을 StringL로 명명해서 사용 ㄱㄴ
+typedef StringL = List<String>;
+
+void functionRun() {
+  namedParamater(contry: "korea", name: "momin");
+
+  optionalParamater("name");
+  qqOperator();
+
+  String? name = null;
+  name ??= "anon"; // name이 null이라면 anon을 대입
+}
+
+// default value를 적용해 null에 대응하거나 required로 not nullable하게 막음
+void namedParamater({String contry = 'no data', required String name}) =>
+    print("contry is $contry");
+
+// optional임에도 []안에 넣어 ?를 붙임으로 써 nullable하게 만들 수 있음
+void optionalParamater(String name, [String? contry]) =>
+    "hello $name from $contry";
+
+// name이 null이면 ANON을 return
+void qqOperator(String? name) => name?.toUpperCase() ?? "ANON";
