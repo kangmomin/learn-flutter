@@ -80,3 +80,43 @@ void optionalParamater(String name, [String? contry]) =>
 
 // name이 null이면 ANON을 return
 void qqOperator(String? name) => name?.toUpperCase() ?? "ANON";
+
+void classRun() {
+  // new 필수 아님
+  Player p = Player();
+  var p1 = Player2(age: 12, name: "momin", number: 1, locate: "dad");
+}
+
+class Player {
+  final String name = 'jisoung';
+  final int age = 17;
+
+  Player(age, name);
+
+  void sayName() {
+    // class method안에서는 this를 쓰지 않는 것을 권장한다.
+    print("Hi my name is $name");
+  }
+}
+
+class Player2 {
+  final String name;
+  final int age, number;
+  final String locate;
+
+  Player2(
+      {required this.age,
+      required this.name,
+      required this.number,
+      required this.locate});
+
+  Player2.createOnePlayer(
+      {required this.age, required this.name, required this.locate})
+      : this.number = 1;
+
+  Player2.parseJson(Map<String, dynamic> json)
+      : this.age = json["age"],
+        this.name = json["name"],
+        this.number = json["number"],
+        this.locate = json["locate"];
+}
