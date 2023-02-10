@@ -83,19 +83,27 @@ void qqOperator(String? name) => name?.toUpperCase() ?? "ANON";
 
 void classRun() {
   // new 필수 아님
-  Player p = Player();
-  var p1 = Player2(age: 12, name: "momin", number: 1, locate: "dad");
+  Player1 p = Player1(age: 12, name: "")
+    ..age = 13
+    ..sayName();
+  var p1 = Player2(
+      age: 12, name: "momin", number: 1, locate: Locate.Busan.toString());
 }
 
-class Player {
-  final String name = 'jisoung';
-  final int age = 17;
+class Player1 extends Player {
+  String name = 'jisoung';
+  int age = 17;
 
-  Player(age, name);
+  Player1({required age, required name});
 
   void sayName() {
     // class method안에서는 this를 쓰지 않는 것을 권장한다.
     print("Hi my name is $name");
+  }
+
+  @override
+  void move() {
+    print("move");
   }
 }
 
@@ -119,4 +127,10 @@ class Player2 {
         this.name = json["name"],
         this.number = json["number"],
         this.locate = json["locate"];
+}
+
+enum Locate { Busan, Haeundae }
+
+abstract class Player {
+  void move();
 }
