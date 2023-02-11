@@ -9,9 +9,9 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
-      backgroundColor: Color(0xFF181818),
+      backgroundColor: const Color(0xFF181818),
       body: Padding(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -22,7 +22,7 @@ class App extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
-                  Text(
+                  const Text(
                     "hey, selena",
                     style: TextStyle(
                         color: Colors.white,
@@ -36,7 +36,7 @@ class App extends StatelessWidget {
                 ])
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 120,
             ),
             Text(
@@ -44,44 +44,57 @@ class App extends StatelessWidget {
               style:
                   TextStyle(fontSize: 22, color: Colors.white.withOpacity(0.8)),
             ),
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
-            Text(
+            const Text(
               '\$5 194 482',
               style: TextStyle(
                   fontSize: 48,
                   fontWeight: FontWeight.w600,
                   color: Colors.white),
             ),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.amber,
-                    borderRadius: BorderRadius.circular(45),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 20,
-                      horizontal: 50,
-                    ),
-                    child: Text(
-                      'Transfer',
-                      style: TextStyle(
-                        fontSize: 20,
-                      ),
-                    ),
-                  ),
-                ),
+                myButton(color: Colors.amber, text: "Transfer"),
+                myButton(
+                    color: const Color(0xFF1F2123),
+                    text: "Request",
+                    textColor: Colors.white)
               ],
             )
           ],
         ),
       ),
     ));
+  }
+
+  Container myButton(
+      {required Color color,
+      required String text,
+      Color textColor = Colors.black}) {
+    return Container(
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(45),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          vertical: 19,
+          horizontal: 50,
+        ),
+        child: Text(
+          text,
+          style: TextStyle(
+            color: textColor,
+            fontSize: 20,
+          ),
+        ),
+      ),
+    );
   }
 }
