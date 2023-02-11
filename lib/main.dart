@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import './widgets/Button.dart';
 
 void main() {
   runApp(App());
@@ -59,42 +60,17 @@ class App extends StatelessWidget {
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                myButton(color: Colors.amber, text: "Transfer"),
-                myButton(
-                    color: const Color(0xFF1F2123),
+              children: const [
+                Button(bgColor: Colors.amber, text: "transfer"),
+                Button(
+                    bgColor: Color(0xFF1F2123),
                     text: "Request",
-                    textColor: Colors.white)
+                    textColor: Colors.black),
               ],
             )
           ],
         ),
       ),
     ));
-  }
-
-  Container myButton(
-      {required Color color,
-      required String text,
-      Color textColor = Colors.black}) {
-    return Container(
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(45),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: 19,
-          horizontal: 50,
-        ),
-        child: Text(
-          text,
-          style: TextStyle(
-            color: textColor,
-            fontSize: 20,
-          ),
-        ),
-      ),
-    );
   }
 }
