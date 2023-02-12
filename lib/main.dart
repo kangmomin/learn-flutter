@@ -65,7 +65,7 @@ class App extends StatelessWidget {
                 Button(
                     bgColor: Color(0xFF1F2123),
                     text: "Request",
-                    textColor: Colors.black),
+                    textColor: Colors.white),
               ],
             )
           ],
