@@ -21,14 +21,18 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        textTheme: const TextTheme(
+          titleLarge: TextStyle(
+            color: Colors.red,
+          ),
+        ),
+      ),
       home: Scaffold(
         body: Center(
           child: Column(
             children: [
-              Text(
-                '$count',
-                style: const TextStyle(fontSize: 30),
-              ),
+              CountText(count: count),
               IconButton(
                 onPressed: _addCount,
                 icon: const Icon(Icons.add_box_outlined),
@@ -37,6 +41,24 @@ class _MyAppState extends State<MyApp> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class CountText extends StatelessWidget {
+  const CountText({
+    Key? key,
+    required this.count,
+  }) : super(key: key);
+
+  final int count;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      '$count',
+      style: TextStyle(
+          fontSize: 30, color: Theme.of(context).textTheme.titleLarge!.color),
     );
   }
 }
