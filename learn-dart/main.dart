@@ -64,7 +64,7 @@ void functionRun() {
   namedParamater(contry: "korea", name: "momin");
 
   optionalParamater("name");
-  qqOperator();
+  qqOperator("name");
 
   String? name = null;
   name ??= "anon"; // name이 null이라면 anon을 대입
