@@ -12,6 +12,12 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   int count = 0;
 
+  bool showTitle = true;
+
+  void _toggleTitle() {
+    showTitle = !showTitle;
+  }
+
   void _addCount() {
     setState(() {
       count++;
@@ -32,10 +38,16 @@ class _MyAppState extends State<MyApp> {
         body: Center(
           child: Column(
             children: [
-              CountText(count: count),
+              showTitle ? CountText(count: count) : const Text("nothing"),
               IconButton(
                 onPressed: _addCount,
                 icon: const Icon(Icons.add_box_outlined),
+              ),
+              IconButton(
+                onPressed: _toggleTitle,
+                icon: showTitle
+                    ? const Icon(Icons.toggle_off)
+                    : const Icon(Icons.toggle_on),
               )
             ],
           ),
@@ -45,7 +57,7 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
-class CountText extends StatelessWidget {
+class CountText extends StatefulWidget {
   const CountText({
     Key? key,
     required this.count,
@@ -54,9 +66,27 @@ class CountText extends StatelessWidget {
   final int count;
 
   @override
+  State<CountText> createState() => _CountTextState();
+}
+
+class _CountTextState extends State<CountText> {
+  // 위젯이 나타나기 전에 한번 실행
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  // 위젯이 사라질 때 실행
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  // 위젯에서 UI를 만드는 함수
+  @override
   Widget build(BuildContext context) {
     return Text(
-      '$count',
+      '${widget.count}',
       style: TextStyle(
           fontSize: 30, color: Theme.of(context).textTheme.titleLarge!.color),
     );
