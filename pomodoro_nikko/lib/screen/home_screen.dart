@@ -48,6 +48,13 @@ class _HomeScreenState extends State<HomeScreen> {
     return duration.toString().split(".").first.substring(2, 7);
   }
 
+  void reset() {
+    onStopPressed();
+    setState(() {
+      totalSeconds = duration;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,12 +65,15 @@ class _HomeScreenState extends State<HomeScreen> {
             flex: 1,
             child: Container(
               alignment: Alignment.bottomCenter,
-              child: Text(
-                formatter(totalSeconds),
-                style: TextStyle(
-                  color: Theme.of(context).cardColor,
-                  fontSize: 89,
-                  fontWeight: FontWeight.w600,
+              child: TextButton(
+                onPressed: reset,
+                child: Text(
+                  formatter(totalSeconds),
+                  style: TextStyle(
+                    color: Theme.of(context).cardColor,
+                    fontSize: 89,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ),
