@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -8,6 +10,38 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  static const int duration = 1500;
+
+  int totalSeconds = duration, successCount = 0;
+  late Timer timer;
+  bool isRun = false;
+
+  void onTick(Timer timer) {
+    setState(() {
+      totalSeconds--;
+      if (totalSeconds == -1) {
+        isRun = false;
+        timer.cancel();
+        totalSeconds = duration;
+        successCount++;
+      }
+    });
+  }
+
+  void onStartPressed() {
+    setState(() {
+      isRun = true;
+    });
+    timer = Timer.periodic(const Duration(seconds: 1), onTick);
+  }
+
+  void onStopPressed() {
+    setState(() {
+      isRun = false;
+    });
+    timer.cancel();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Container(
               alignment: Alignment.bottomCenter,
               child: Text(
-                '25:00',
+                totalSeconds.toString(),
                 style: TextStyle(
                   color: Theme.of(context).cardColor,
                   fontSize: 89,
@@ -32,8 +66,10 @@ class _HomeScreenState extends State<HomeScreen> {
             flex: 3,
             child: Center(
               child: IconButton(
-                icon: const Icon(Icons.play_circle_outline),
-                onPressed: () {},
+                icon: isRun
+                    ? const Icon(Icons.pause_circle_outlined)
+                    : const Icon(Icons.play_circle_outline),
+                onPressed: isRun ? onStopPressed : onStartPressed,
                 iconSize: 120,
                 color: Theme.of(context).cardColor,
               ),
@@ -46,6 +82,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
+                      borderRadius:
+                          const BorderRadius.vertical(top: Radius.circular(50)),
                       color: Theme.of(context).cardColor,
                     ),
                     child: Column(
@@ -59,7 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         Text(
-                          '0',
+                          successCount.toString(),
                           style: TextStyle(
                             fontSize: 58,
                             color: Theme.of(context).textTheme.headline1!.color,
