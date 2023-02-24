@@ -4,12 +4,13 @@ import 'package:http/http.dart' as http;
 import 'package:webtoon_nikko/models/webtoon_model.dart';
 
 class ApiService {
-  final String basicUtl = "https://webtoon-crawler.nomadcoders.workers.dev";
-  final String today = "today";
+  static const String _basicUtl =
+      "https://webtoon-crawler.nomadcoders.workers.dev";
+  static const String _today = "today";
 
-  Future<List<WebtoonModel>> getTodaysToons() async {
+  static Future<List<WebtoonModel>> getTodaysToons() async {
     List<WebtoonModel> webtoons = [];
-    final url = Uri.parse('$basicUtl/$today');
+    final url = Uri.parse('$_basicUtl/$_today');
     var res = await http.get(url);
 
     if (res.statusCode == 200) {
