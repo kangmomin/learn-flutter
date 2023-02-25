@@ -3,7 +3,7 @@ import 'package:webtoon_nikko/screen/home_screen.dart';
 import 'package:webtoon_nikko/service/api_service.dart';
 
 void main() {
-  ApiService().getTodaysToons();
+  ApiService.getTodaysToons();
   runApp(const App());
 }
 
