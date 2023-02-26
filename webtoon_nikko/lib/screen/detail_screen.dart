@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:webtoon_nikko/models/webtoon_detail_model.dart';
+import 'package:webtoon_nikko/models/webtoon_episode_model.dart';
+import 'package:webtoon_nikko/service/api_service.dart';
 import 'package:webtoon_nikko/widgets/webtoon_image.dart';
 
-class DetailScreen extends StatelessWidget {
+class DetailScreen extends StatefulWidget {
   final String title, thumb, id;
 
   const DetailScreen(
@@ -9,12 +12,27 @@ class DetailScreen extends StatelessWidget {
       : super(key: key);
 
   @override
+  State<DetailScreen> createState() => _DetailScreenState();
+}
+
+class _DetailScreenState extends State<DetailScreen> {
+  late Future<WebtoonDetailModel> webtoon;
+  late Future<List<WebtoonEpisodModel>> epi;
+
+  @override
+  void initState() {
+    super.initState();
+    epi = ApiService.getLastEpisodesById(widget.id);
+    webtoon = ApiService.getDetailWebtoon(widget.id);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
-          title,
+          widget.title,
           style: const TextStyle(
             fontWeight: FontWeight.w400,
             fontSize: 22,
@@ -33,10 +51,9 @@ class DetailScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Hero(
-                tag: id,
-                child: WebtoonImage(thumb: thumb),
+                tag: widget.id,
+                child: WebtoonImage(thumb: widget.thumb),
               ),
-              FutureBuilder(builder: () => ))
             ],
           ),
         ],
