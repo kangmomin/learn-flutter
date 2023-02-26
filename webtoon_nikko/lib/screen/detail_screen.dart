@@ -36,6 +36,7 @@ class DetailScreen extends StatelessWidget {
                 tag: id,
                 child: WebtoonImage(thumb: thumb),
               ),
+              FutureBuilder(builder: () => ))
             ],
           ),
         ],
