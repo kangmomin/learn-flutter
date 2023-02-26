@@ -27,21 +27,63 @@ class HomeScreen extends StatelessWidget {
         future: webtoons,
         builder: (context, AsyncSnapshot<List<WebtoonModel>> snapshot) {
           if (snapshot.hasData) {
-            return ListView.separated(
-              scrollDirection: Axis.horizontal,
-              itemCount: snapshot.data!.toString().length,
-              itemBuilder: (context, idx) {
-                var webtoon = snapshot.data![idx];
-                return Text(webtoon.title);
-              },
-              separatorBuilder: (context, idx) => const SizedBox(
-                width: 20,
-              ),
+            return Column(
+              children: [
+                const SizedBox(
+                  height: 50,
+                ),
+                Expanded(
+                  child: makeList(snapshot),
+                )
+              ],
             );
           }
 
           return const Text("Loading...");
         },
+      ),
+    );
+  }
+
+  ListView makeList(AsyncSnapshot<List<WebtoonModel>> snapshot) {
+    return ListView.separated(
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+      scrollDirection: Axis.horizontal,
+      itemCount: snapshot.data!.toString().length,
+      itemBuilder: (context, idx) {
+        var webtoon = snapshot.data![idx];
+        return Column(
+          children: [
+            Container(
+              width: 250,
+              clipBehavior: Clip.hardEdge,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                boxShadow: [
+                  BoxShadow(
+                    blurRadius: 5,
+                    offset: const Offset(0, 0),
+                    color: Colors.black.withOpacity(0.5),
+                  )
+                ],
+              ),
+              child: Image.network(webtoon.thumb),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Text(
+              webtoon.title,
+              style: const TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        );
+      },
+      separatorBuilder: (context, idx) => const SizedBox(
+        width: 40,
       ),
     );
   }
