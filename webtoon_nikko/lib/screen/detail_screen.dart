@@ -42,57 +42,100 @@ class _DetailScreenState extends State<DetailScreen> {
         backgroundColor: Colors.white,
         elevation: 2,
       ),
-      body: Column(
-        children: [
-          const SizedBox(
-            height: 50,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(50),
+          child: Column(
             children: [
-              Hero(
-                tag: widget.id,
-                child: WebtoonImage(thumb: widget.thumb),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Hero(
+                    tag: widget.id,
+                    child: WebtoonImage(thumb: widget.thumb),
+                  ),
+                ],
               ),
+              const SizedBox(
+                height: 25,
+              ),
+              FutureBuilder(
+                future: webtoon,
+                builder: (context, AsyncSnapshot<WebtoonDetailModel> snapshot) {
+                  if (snapshot.hasData) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          snapshot.data!.about,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          "${snapshot.data!.genre}/${snapshot.data!.age}",
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        )
+                      ],
+                    );
+                  }
+                  return const Text("...");
+                },
+              ),
+              const SizedBox(
+                height: 25,
+              ),
+              FutureBuilder(
+                future: epi,
+                builder: (context,
+                    AsyncSnapshot<List<WebtoonEpisodModel>> snapshot) {
+                  if (!snapshot.hasData) return const Text("Loading...");
+                  return Column(
+                    children: [
+                      for (var epi in snapshot.data!)
+                        Container(
+                          margin: const EdgeInsets.only(bottom: 20),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: Colors.green.shade200,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 10,
+                              horizontal: 20,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  epi.title,
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                const Icon(
+                                  Icons.chevron_right_rounded,
+                                  color: Colors.white,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                    ],
+                  );
+                },
+              )
             ],
           ),
-          const SizedBox(
-            height: 25,
-          ),
-          FutureBuilder(
-            future: webtoon,
-            builder: (context, AsyncSnapshot<WebtoonDetailModel> snapshot) {
-              if (snapshot.hasData) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 50),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        snapshot.data!.about,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        "${snapshot.data!.genre}/${snapshot.data!.age}",
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      )
-                    ],
-                  ),
-                );
-              }
-              return const Text("...");
-            },
-          ),
-        ],
+        ),
       ),
     );
   }
