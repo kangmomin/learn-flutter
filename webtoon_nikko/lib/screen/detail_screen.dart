@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:webtoon_nikko/models/webtoon_detail_model.dart';
 import 'package:webtoon_nikko/models/webtoon_episode_model.dart';
 import 'package:webtoon_nikko/service/api_service.dart';
+import 'package:webtoon_nikko/widgets/episode_widget.dart';
 import 'package:webtoon_nikko/widgets/webtoon_image.dart';
 
 class DetailScreen extends StatefulWidget {
@@ -100,35 +101,7 @@ class _DetailScreenState extends State<DetailScreen> {
                   return Column(
                     children: [
                       for (var epi in snapshot.data!)
-                        Container(
-                          margin: const EdgeInsets.only(bottom: 20),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: Colors.green.shade200,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 10,
-                              horizontal: 20,
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  epi.title,
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                const Icon(
-                                  Icons.chevron_right_rounded,
-                                  color: Colors.white,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
+                        Episode(epi: epi, webtoonId: widget.id),
                     ],
                   );
                 },
