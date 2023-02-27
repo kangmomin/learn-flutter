@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:webtoon_nikko/models/webtoon_detail_model.dart';
 import 'package:webtoon_nikko/models/webtoon_episode_model.dart';
 import 'package:webtoon_nikko/service/api_service.dart';
@@ -19,12 +20,41 @@ class DetailScreen extends StatefulWidget {
 class _DetailScreenState extends State<DetailScreen> {
   late Future<WebtoonDetailModel> webtoon;
   late Future<List<WebtoonEpisodModel>> epi;
+  late SharedPreferences prefs;
+  bool isLiked = false;
+
+  Future initPrefers() async {
+    prefs = await SharedPreferences.getInstance();
+    final likedToons = prefs.getStringList('likedToons');
+
+    if (likedToons == null) {
+      return await prefs.setStringList('likedToons', []);
+    }
+
+    if (likedToons.contains(widget.id)) {
+      setState(() {
+        isLiked = true;
+      });
+    }
+  }
 
   @override
   void initState() {
     super.initState();
     epi = ApiService.getLastEpisodesById(widget.id);
     webtoon = ApiService.getDetailWebtoon(widget.id);
+    initPrefers();
+  }
+
+  onClickedFavorit() async {
+    var likedToons = prefs.getStringList('likedToons');
+    if (likedToons == null) throw Error();
+
+    isLiked ? likedToons.remove(widget.id) : likedToons.add(widget.id);
+    await prefs.setStringList('likedToons', likedToons);
+    setState(() {
+      isLiked = !isLiked;
+    });
   }
 
   @override
@@ -32,6 +62,16 @@ class _DetailScreenState extends State<DetailScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        actions: [
+          IconButton(
+            onPressed: onClickedFavorit,
+            icon: isLiked
+                ? const Icon(Icons.favorite_rounded)
+                : const Icon(
+                    Icons.favorite_outline_outlined,
+                  ),
+          ),
+        ],
         title: Text(
           widget.title,
           style: const TextStyle(
